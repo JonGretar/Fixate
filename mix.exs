@@ -29,7 +29,6 @@ defmodule Fixate.MixProject do
   defp package do
     # These are the default files included in the package
     [
-      name: "Fixate",
       files: ["lib", "mix.exs", "README.md"],
       maintainers: ["Jón Grétar Borgþórsson"],
       licenses: ["MIT"],
