@@ -101,3 +101,7 @@ For more complex parsers create a module, for example in `test/support`, and ref
 ```elixir
 Fixate.add_parser("complex.xml", &MyFixtureParser.parse_complex/1)
 ```
+
+## Examples
+
+For an example of usage in an actual project check out [Geo.Turf](https://github.com/JonGretar/GeoTurf/tree/master/test)'s tests.
