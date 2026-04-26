@@ -21,4 +21,10 @@ defmodule FixateTest do
     assert ctx.number == 42
     assert ctx.number == ctx.named_number
   end
+
+  test "FixtureNotFoundError has helpful message" do
+    error = Fixate.FixtureNotFoundError.exception("priv/fixtures/missing.txt")
+    assert error.message =~ "fixture file not found: priv/fixtures/missing.txt"
+    assert error.message =~ "Make sure the file exists"
+  end
 end
