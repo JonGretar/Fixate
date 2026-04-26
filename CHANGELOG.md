@@ -17,6 +17,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Agent state restructured internally from a flat parser map to `%{parsers: %{}, fixture_path: path}`.
 - `Fixate.Case` now reads the fixture path from the Agent rather than hardcoding `priv/fixtures`.
+- Agent state extended to `%{parsers: %{}, fixture_path: path, cache: %{}}` to support parsed-file caching.
+
+### Performance
+
+- Parsed fixture files are now cached in Agent state for the duration of the test run. A fixture file read more than once (across tests) is only read from disk and parsed once.
 
 ## [0.1.0] - 2019-05-01
 

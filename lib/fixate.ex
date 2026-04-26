@@ -105,7 +105,7 @@ defmodule Fixate do
         Application.get_env(:fixate, :fixture_path) ||
         Path.join(Mix.Project.app_path(), "priv/fixtures")
 
-    Agent.start_link(fn -> %{parsers: %{}, fixture_path: fixture_path} end, name: __MODULE__)
+    Agent.start_link(fn -> %{parsers: %{}, fixture_path: fixture_path, cache: %{}} end, name: __MODULE__)
   end
 
   @spec fixture_path() :: binary()
@@ -124,5 +124,15 @@ defmodule Fixate do
 
   def add_parser(extension, fun) when is_binary(extension) and is_function(fun, 1) do
     Agent.update(__MODULE__, fn state -> %{state | parsers: Map.put(state.parsers, extension, fun)} end)
+  end
+
+  @spec cache_get(binary()) :: {:ok, any()} | :error
+  def cache_get(filepath) do
+    Agent.get(__MODULE__, fn state -> Map.fetch(state.cache, filepath) end)
+  end
+
+  @spec cache_put(binary(), any()) :: :ok
+  def cache_put(filepath, result) do
+    Agent.update(__MODULE__, fn state -> %{state | cache: Map.put(state.cache, filepath, result)} end)
   end
 end

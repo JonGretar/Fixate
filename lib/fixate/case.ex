@@ -30,7 +30,14 @@ defmodule Fixate.Case do
 
   defp read_and_parse(extension, fixture_path) do
     filepath = Path.join(Fixate.fixture_path(), fixture_path)
-    Fixate.parse(extension, File.read!(filepath))
+    case Fixate.cache_get(filepath) do
+      {:ok, result} ->
+        result
+      :error ->
+        result = Fixate.parse(extension, File.read!(filepath))
+        Fixate.cache_put(filepath, result)
+        result
+    end
   end
 
   defp build_key_and_extension(path) do
