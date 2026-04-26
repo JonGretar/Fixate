@@ -94,7 +94,7 @@ defmodule Fixate do
   use Agent
 
   @spec start() :: {:error, any()} | {:ok, pid()}
-  def start() do
+  def start do
     Fixate.start_link(%{})
   end
 
@@ -104,7 +104,7 @@ defmodule Fixate do
   end
 
   def parse(extension, data) when is_binary(extension) do
-    Agent.get(__MODULE__, fn state -> parse(state, extension, data) end )
+    Agent.get(__MODULE__, fn state -> parse(state, extension, data) end)
   end
 
   defp parse(state, extension, data) do
@@ -119,6 +119,4 @@ defmodule Fixate do
   defp add_parser(state, extension, fun) do
     state |> Map.put(extension, fun)
   end
-
-
 end
