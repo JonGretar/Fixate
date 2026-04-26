@@ -33,7 +33,7 @@ defmodule Fixate.MixProject do
       maintainers: ["Jón Grétar Borgþórsson"],
       licenses: ["MIT"],
       source_url: "https://github.com/JonGretar/Fixate",
-      links: %{"GitHub" => "https://github.com/JonGretar/geo_turf"}
+      links: %{"GitHub" => "https://github.com/JonGretar/Fixate"}
     ]
   end
 
