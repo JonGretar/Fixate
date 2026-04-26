@@ -30,14 +30,18 @@ defmodule Fixate.Case do
 
   defp read_and_parse(extension, fixture_path) do
     filepath = Path.join(Fixate.fixture_path(), fixture_path)
+
     case Fixate.cache_get(filepath) do
       {:ok, result} ->
         result
+
       :error ->
-        data = case File.read(filepath) do
-          {:ok, contents} -> contents
-          {:error, _} -> raise Fixate.FixtureNotFoundError, filepath
-        end
+        data =
+          case File.read(filepath) do
+            {:ok, contents} -> contents
+            {:error, _} -> raise Fixate.FixtureNotFoundError, filepath
+          end
+
         result = Fixate.parse(extension, data)
         Fixate.cache_put(filepath, result)
         result

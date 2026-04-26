@@ -4,7 +4,8 @@ defmodule Fixate.FixtureNotFoundError do
   @impl true
   def exception(path) do
     %__MODULE__{
-      message: "fixture file not found: #{path}\n  Make sure the file exists relative to your project root."
+      message:
+        "fixture file not found: #{path}\n  Make sure the file exists relative to your project root."
     }
   end
 end
