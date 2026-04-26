@@ -4,18 +4,6 @@ Insert fixtures into your ExUnit context in a clean manner.
 
 The docs can be found at [https://hexdocs.pm/fixate](https://hexdocs.pm/fixate).
 
-## Installation
-
-The package can be installed by adding `fixate` to your list of dependencies in `mix.exs`:
-
-```elixir
-def deps do
-  [
-    {:fixate, "~> 0.1", only: test}
-  ]
-end
-```
-
 ## Usage
 
 Start Fixate by adding `Fixate.start()` to your `test/test_helper.exs` file.
@@ -46,7 +34,6 @@ Now you can load fixtures before each test using the `@fixture` attribute. The a
     assert "FILE_BODY_IN_SUBFOLDER" == ctx.subtext
   end
 ```
-
 
 ### Adding parsers for fixtures
 
