@@ -24,3 +24,6 @@ fixate-*.tar
 
 # Language Server
 .elixir_ls
+
+# Dialyzer PLTs
+/priv/plts/
