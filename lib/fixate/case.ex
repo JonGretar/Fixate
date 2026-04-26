@@ -29,7 +29,7 @@ defmodule Fixate.Case do
   end
 
   defp read_and_parse(extension, fixture_path) do
-    filepath = Path.join([Mix.Project.app_path(), "priv/fixtures", fixture_path])
+    filepath = Path.join(Fixate.fixture_path(), fixture_path)
     Fixate.parse(extension, File.read!(filepath))
   end
 

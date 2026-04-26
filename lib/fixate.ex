@@ -93,14 +93,24 @@ defmodule Fixate do
   """
   use Agent
 
-  @spec start() :: {:error, any()} | {:ok, pid()}
-  def start do
-    Fixate.start_link(%{})
+  @spec start(keyword()) :: {:error, any()} | {:ok, pid()}
+  def start(opts \\ []) do
+    start_link(opts)
   end
 
-  @spec start_link(any()) :: {:error, any()} | {:ok, pid()}
-  def start_link(initial) do
-    Agent.start_link(fn -> initial end, name: __MODULE__)
+  @spec start_link(keyword()) :: {:error, any()} | {:ok, pid()}
+  def start_link(opts \\ []) do
+    fixture_path =
+      Keyword.get(opts, :fixture_path) ||
+        Application.get_env(:fixate, :fixture_path) ||
+        Path.join(Mix.Project.app_path(), "priv/fixtures")
+
+    Agent.start_link(fn -> %{parsers: %{}, fixture_path: fixture_path} end, name: __MODULE__)
+  end
+
+  @spec fixture_path() :: binary()
+  def fixture_path do
+    Agent.get(__MODULE__, fn state -> state.fixture_path end)
   end
 
   def parse(extension, data) when is_binary(extension) do
@@ -108,15 +118,11 @@ defmodule Fixate do
   end
 
   defp parse(state, extension, data) do
-    fun = state |> Map.get(extension, & &1)
+    fun = state.parsers |> Map.get(extension, & &1)
     fun.(data)
   end
 
   def add_parser(extension, fun) when is_binary(extension) and is_function(fun, 1) do
-    Agent.update(__MODULE__, fn state -> add_parser(state, extension, fun) end)
-  end
-
-  defp add_parser(state, extension, fun) do
-    state |> Map.put(extension, fun)
+    Agent.update(__MODULE__, fn state -> %{state | parsers: Map.put(state.parsers, extension, fun)} end)
   end
 end
